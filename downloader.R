@@ -1,11 +1,10 @@
 #install.packages("FAOSTAT")
 require(FAOSTAT)
+options(timeout = 600)
 
 
-FAO.version <- "2024jan04"
-#create directory for the raw data
-data_folder <- paste0("FAOSTAT_",FAO.version)
-dir.create(paste0(data_folder))
+data_folder <- paste0("/code/outputs")
+
 
 available_datasets <- get_faostat_bulk_list()
 valid_codes <- available_datasets$dataset_code
