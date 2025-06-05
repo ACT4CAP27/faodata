@@ -6,7 +6,7 @@ library(FAOSTAT)
 
 # --- Configuration ---
 # Define the environment variable name that holds the FAOSTAT dataset codes
-env_var_name <- "FAOSTAT_DATASET_CODES"
+env_var_name <- "code_list"
 # Define the relative path for the output folder where data will be saved
 output_folder <- "outputs" # This will create an 'outputs' folder in your working directory
 
