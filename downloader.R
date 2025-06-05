@@ -53,11 +53,8 @@ for (code in fao_codes) {
   })
 }
 
----
-
 ### 5. Save Downloaded Data to 'outputs' Folder
 
----
 if (length(downloaded_data) > 0){
   message("\nDownload complete. Saving downloaded data to the 'outputs' folder...")
 
