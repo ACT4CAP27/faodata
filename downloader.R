@@ -6,8 +6,8 @@ library(FAOSTAT)
 
 # --- Configuration ---
 # Define the environment variable name that holds the FAOSTAT dataset codes
-env_var_name <- "code_list"
-# Define the relative path for the output folder
+env_var_name <- "FAOSTAT_DATASET_CODES"
+# Define the relative path for the output folder where data will be saved
 output_folder <- "outputs" # This will create an 'outputs' folder in your working directory
 
 # --- Main Script ---
@@ -16,14 +16,14 @@ output_folder <- "outputs" # This will create an 'outputs' folder in your workin
 fao_codes_string <- Sys.getenv(env_var_name)
 
 if (nchar(fao_codes_string) == 0) {
-  stop(paste("Error: Environment variable '", env_var_name, "' is not set or is empty. Please set it with comma-separated FAOSTAT dataset codes.", sep = ""))
+  stop(paste("Error: Environment variable '", env_var_name, "' is not set or is empty. Please set it with comma-separated FAOSTAT dataset codes (e.g., 'QC,RL').", sep = ""))
 }
 
-# Split the string into individual codes
+# Split the string into individual codes and remove any whitespace
 fao_codes <- unlist(strsplit(fao_codes_string, ","))
 fao_codes <- trimws(fao_codes) # Remove leading/trailing whitespace
 
-message(paste("Attempting to download the following FAOSTAT datasets:", paste(fao_codes, collapse = ", ")))
+message(paste("Attempting to process the following FAOSTAT datasets:", paste(fao_codes, collapse = ", ")))
 
 # 2. Get available FAOSTAT dataset metadata to check for existence
 message("Fetching available FAOSTAT dataset metadata for validation...")
@@ -37,7 +37,7 @@ if (length(missing_codes) > 0) {
              paste(missing_codes, collapse = ", "),
              "\nPlease check the codes for typos or refer to `FAOsearch()` for available datasets.", sep = ""))
 } else {
-  message("All provided FAOSTAT dataset codes are valid. Starting download...")
+  message("All provided FAOSTAT dataset codes are valid. Proceeding with download...")
 }
 
 # 4. Download datasets
@@ -53,16 +53,20 @@ for (code in fao_codes) {
   })
 }
 
-# ---
-### 5. Process and Save Downloaded Data
 ---
 
+### 5. Save Downloaded Data to 'outputs' Folder
+
+---
+
+# This 'if' statement should be clean, without any preceding characters like '-'
 if (length(downloaded_data) > 0) {
   message("\nDownload complete. Saving downloaded data to the 'outputs' folder...")
 
   # Create the output folder if it doesn't exist
+  # recursive=TRUE ensures that parent directories are also created if needed
   if (!dir.exists(output_folder)) {
-    dir.create(output_folder, recursive = TRUE) # recursive=TRUE ensures parent directories are created if needed
+    dir.create(output_folder, recursive = TRUE)
     message(paste("Created output folder:", file.path(getwd(), output_folder)))
   }
 
@@ -73,8 +77,8 @@ if (length(downloaded_data) > 0) {
     message(paste("Saved", code, "to", file_path))
   }
 
-  message("All downloaded datasets have been saved to the 'outputs' folder.")
+  message("All successfully downloaded datasets have been saved to the 'outputs' folder.")
 
 } else {
-  message("No datasets were successfully downloaded.")
+  message("No datasets were successfully downloaded or saved.")
 }
