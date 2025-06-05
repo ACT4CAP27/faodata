@@ -1,7 +1,5 @@
 #install.packages("FAOSTAT")
 require(FAOSTAT)
-ls("package:FAOSTAT")
-packageVersion("FAOSTAT")
 
 options(timeout = 600)
 
@@ -9,7 +7,7 @@ options(timeout = 600)
 data_folder <- paste0("/code/outputs")
 
 
-available_datasets <- get_faostat_bulk_list()
+available_datasets <- search_dataset()
 valid_codes <- available_datasets$dataset_code
 
 # Get user-provided codes
