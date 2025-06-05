@@ -58,9 +58,7 @@ for (code in fao_codes) {
 ### 5. Save Downloaded Data to 'outputs' Folder
 
 ---
-
-# This 'if' statement should be clean, without any preceding characters like '-'
-if (length(downloaded_data) > 0) {
+if (length(download_data) > 0){
   message("\nDownload complete. Saving downloaded data to the 'outputs' folder...")
 
   # Create the output folder if it doesn't exist
