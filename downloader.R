@@ -1,5 +1,8 @@
 #install.packages("FAOSTAT")
 require(FAOSTAT)
+ls("package:FAOSTAT")
+packageVersion("FAOSTAT")
+
 options(timeout = 600)
 
 
