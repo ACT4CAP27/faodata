@@ -8,6 +8,10 @@ data_folder <- paste0("/code/outputs")
 
 
 available_datasets <- search_dataset()
+
+# Print all dataset codes and names
+print(available_datasets[, c("dataset_code", "dataset")])
+
 valid_codes <- available_datasets$dataset_code
 
 # Get user-provided codes
