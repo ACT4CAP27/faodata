@@ -41,7 +41,7 @@ if (length(missing_codes) > 0) {
 }
 
 # 4. Download datasets
-downloaded_data <- list()
+downloaded_data <- list() # This list will hold the data frames
 for (code in fao_codes) {
   message(paste("Downloading dataset:", code, "..."))
   tryCatch({
@@ -53,22 +53,21 @@ for (code in fao_codes) {
   })
 }
 
-### 5. Save Downloaded Data to 'outputs' Folder
-
+# 5. Save Downloaded Data to 'outputs' Folder as CSV files
 if (length(downloaded_data) > 0){
-  message("\nDownload complete. Saving downloaded data to the 'outputs' folder...")
+  message("\nDownload complete. Saving downloaded data to the 'outputs' folder as CSV files...")
 
   # Create the output folder if it doesn't exist
-  # recursive=TRUE ensures that parent directories are also created if needed
   if (!dir.exists(output_folder)) {
     dir.create(output_folder, recursive = TRUE)
     message(paste("Created output folder:", file.path(getwd(), output_folder)))
   }
 
-  # Save each downloaded dataset to a separate RDS file within the output folder
+  # Save each downloaded dataset to a separate CSV file within the output folder
   for (code in names(downloaded_data)) {
-    file_path <- file.path(output_folder, paste0(code, "_data.rds"))
-    saveRDS(downloaded_data[[code]], file = file_path)
+    file_path <- file.path(output_folder, paste0(code, "_data.csv"))
+    # write.csv() is used to save data frames to CSV files
+    write.csv(downloaded_data[[code]], file = file_path, row.names = FALSE) # row.names = FALSE prevents writing row numbers as a column
     message(paste("Saved", code, "to", file_path))
   }
 
